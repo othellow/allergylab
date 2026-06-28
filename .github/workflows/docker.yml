@@ -1,6 +1,9 @@
 name: AllergyLab CI/CD
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -9,10 +12,22 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
-      - name: Build images
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_OTHELLOW }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker images
         run: |
           cd Part7a
           docker build -t ${{ secrets.DOCKER_OTHELLOW }}/al-app:latest ./app
           docker build -t ${{ secrets.DOCKER_OTHELLOW }}/al-db:latest ./db-loader
           docker build -t ${{ secrets.DOCKER_OTHELLOW }}/al-email:latest ./email
 
+      - name: Push Docker images
+        run: |
+          docker push ${{ secrets.DOCKER_OTHELLOW }}/al-app:latest
+          docker push ${{ secrets.DOCKER_OTHELLOW }}/al-db:latest
+          docker push ${{ secrets.DOCKER_OTHELLOW }}/al-email:latest

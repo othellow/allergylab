@@ -26,7 +26,7 @@ jobs:
           docker build -t ${{ secrets.DOCKER_OTHELLOW }}/al-db:latest ./db-loader
           docker build -t ${{ secrets.DOCKER_OTHELLOW }}/al-email:latest ./email
 
-      - name: Push Docker images
+      - name: Push images to DockerHub
         run: |
           docker push ${{ secrets.DOCKER_OTHELLOW }}/al-app:latest
           docker push ${{ secrets.DOCKER_OTHELLOW }}/al-db:latest

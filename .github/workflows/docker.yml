@@ -13,10 +13,22 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
+      - name: Verify secrets
+        run: |
+          echo "Username='${{ secrets.DOCKER_OTHELLOW }}'"
+
+          if [ -z "${{ secrets.DOCKER_TOKEN }}" ]; then
+            echo "ERROR: DOCKER_TOKEN is empty"
+            exit 1
+          else
+            echo "DOCKER_TOKEN exists"
+          fi
+
+
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
-          username: ${{ secrets.DOCKER_othellow }}
+          username: ${{ secrets.DOCKER_OTHELLOW }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build Docker images

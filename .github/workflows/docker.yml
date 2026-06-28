@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build images
         run: |
           cd Part7a
@@ -16,4 +16,3 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/al-db:latest ./db-loader
           docker build -t ${{ secrets.DOCKER_USERNAME }}/al-email:latest ./email
 
-          
